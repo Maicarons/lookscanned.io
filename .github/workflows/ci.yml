@@ -18,8 +18,12 @@ jobs:
           node-version: 22
           cache: 'npm'
 
+      # 注：lockfile 在 Windows 本地生成，npm 不会把 Linux 专用的
+      # @rollup/rollup-linux-x64-gnu 等原生二进制写进 package-lock.json，
+      # 用 npm ci 在 Linux runner 上会报 "Cannot find module" (npm bug #4828)。
+      # 改用 npm install，让其按当前平台重新解析并补装 optional 原生依赖。
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Lint
         run: npm run lint
