@@ -1,18 +1,11 @@
-export const colorspaces = ['gray', 'sRGB'] as const
+import type { ScanConfig } from '../config.types'
+import { defaultPaperConfig } from '../../paper/paper'
+import { defaultWatermarkConfig } from '../../watermark/watermark'
+import { defaultStampConfig } from '../../stamp/stamp'
+import { defaultMetadataConfig } from '../../pdf-metadata/metadata'
 
-export interface ScanConfig {
-  rotate: number
-  rotate_var: number
-  colorspace: (typeof colorspaces)[number]
-  blur: number
-  noise: number
-  border: boolean
-  scale: number
-  brightness: number
-  yellowish: number
-  contrast: number
-  output_format: 'image/png' | 'image/jpeg'
-}
+export type { ScanConfig }
+export { colorspaces } from '../config.types'
 
 export const defaultConfig: ScanConfig = {
   rotate: 1,
@@ -25,5 +18,9 @@ export const defaultConfig: ScanConfig = {
   brightness: 1,
   yellowish: 0,
   contrast: 1,
-  output_format: 'image/jpeg'
+  output_format: 'image/jpeg',
+  paper: defaultPaperConfig,
+  watermark: defaultWatermarkConfig,
+  stamp: defaultStampConfig,
+  metadata: defaultMetadataConfig
 }

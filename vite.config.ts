@@ -7,6 +7,8 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // GitHub Pages 项目站点部署在 /<repo>/ 子路径下；本地 dev 保持根路径
+  base: process.env.GITHUB_PAGES ? '/lookscanned.io/' : '/',
   assetsInclude: ["**/*.pfb", "**/*.ttf"],
   plugins: [
     vue(),

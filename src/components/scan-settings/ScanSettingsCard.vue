@@ -30,6 +30,22 @@
         <NoiseSetting v-model:noise="config.noise" />
         <ScaleSetting v-model:scale="config.scale" />
       </n-collapse-item>
+
+      <n-collapse-item :title="t('settings.paper')" name="Paper">
+        <PaperSetting v-model:paper="config.paper" />
+      </n-collapse-item>
+
+      <n-collapse-item :title="t('settings.stamp')" name="Stamp">
+        <StampSetting v-model:stamp="config.stamp" />
+      </n-collapse-item>
+
+      <n-collapse-item :title="t('settings.watermark')" name="Watermark">
+        <WatermarkSetting v-model:watermark="config.watermark" />
+      </n-collapse-item>
+
+      <n-collapse-item :title="t('settings.metadata')" name="Metadata">
+        <MetadataSetting v-model:metadata="config.metadata" />
+      </n-collapse-item>
     </n-collapse>
   </n-card>
 </template>
@@ -49,6 +65,10 @@ import ScaleSetting from './settings/ScaleSetting.vue'
 import BrightnessSetting from './settings/BrightnessSetting.vue'
 import YellowishSetting from './settings/YellowishSetting.vue'
 import ContrastSetting from './settings/ContrastSetting.vue'
+import PaperSetting from './settings/PaperSetting.vue'
+import StampSetting from './settings/StampSetting.vue'
+import WatermarkSetting from './settings/WatermarkSetting.vue'
+import MetadataSetting from './settings/MetadataSetting.vue'
 
 import type { ScanConfig } from '@/utils/scan-renderer'
 import { useI18n } from 'vue-i18n'

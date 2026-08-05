@@ -42,6 +42,7 @@ import BackToIndex from '@/components/buttons/BackToIndex.vue'
 import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { PDF } from '@/utils/pdf-renderer/pdfjs'
+import { ImagePDFRenderer } from '@/utils/pdf-renderer/image'
 import PreviewCompare from '@/components/page-preview/PreviewCompare.vue'
 import SaveButtonCard from '@/components/save-button/SaveButtonCard.vue'
 import { useSaveScannedPDF } from '@/composables/save-scanned-pdf'
@@ -74,6 +75,9 @@ const config = ref<ScanConfig>(defaultConfig)
 const pdfRenderer = computed(() => {
   if (!pdf.value) return
 
+  if (pdf.value.type.startsWith('image/')) {
+    return new ImagePDFRenderer(pdf.value)
+  }
   return new PDF(pdf.value)
 })
 
@@ -92,7 +96,8 @@ const { save, progress, saving, scannedPDF } = useSaveScannedPDF(
   pdf,
   pdfRenderer,
   scanRenderer,
-  scale
+  scale,
+  config
 )
 
 const generate = async () => {

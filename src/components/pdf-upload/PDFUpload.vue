@@ -28,9 +28,9 @@ const emit = defineEmits<{
 
 async function onClick() {
   const file = await fileOpen({
-    description: 'PDF Files',
-    mimeTypes: ['application/pdf'],
-    extensions: ['.pdf']
+    description: 'PDF & Image Files',
+    mimeTypes: ['application/pdf', 'image/png', 'image/jpeg', 'image/webp', 'image/gif'],
+    extensions: ['.pdf', '.png', '.jpg', '.jpeg', '.webp', '.gif']
   })
   emit('update:pdf', file)
 }

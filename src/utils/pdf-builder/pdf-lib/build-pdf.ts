@@ -1,3 +1,5 @@
+import type { PDFMetadata } from '@/utils/pdf-metadata/metadata'
+
 interface ImageInfo {
   blob: Blob
   width: number
@@ -5,7 +7,10 @@ interface ImageInfo {
   ppi: number
 }
 
-export async function buildPDF(images: ImageInfo[]): Promise<Blob> {
+export async function buildPDF(
+  images: ImageInfo[],
+  metadata?: PDFMetadata
+): Promise<Blob> {
   const { PDFDocument } = await import('pdf-lib')
   const pdfDoc = await PDFDocument.create()
 
@@ -33,15 +38,22 @@ export async function buildPDF(images: ImageInfo[]): Promise<Blob> {
     })
   }
 
-  // TODO: use custom metadata
-  pdfDoc.setProducer(metadata.producer)
-  pdfDoc.setCreator(metadata.creator)
+  if (metadata) {
+    if (metadata.title) pdfDoc.setTitle(metadata.title)
+    if (metadata.author) pdfDoc.setAuthor(metadata.author)
+    if (metadata.subject) pdfDoc.setSubject(metadata.subject)
+    if (metadata.creator) pdfDoc.setCreator(metadata.creator)
+    if (metadata.producer) pdfDoc.setProducer(metadata.producer)
+    if (metadata.keywords) {
+      pdfDoc.setKeywords(
+        metadata.keywords
+          .split(',')
+          .map((k) => k.trim())
+          .filter(Boolean)
+      )
+    }
+  }
 
   const pdfBytes = await pdfDoc.save()
   return new Blob([pdfBytes], { type: 'application/pdf' })
-}
-
-const metadata = {
-  producer: 'SECnvtToPDF V1.0',
-  creator: 'TOSHIBA e-STUDIO2010AC'
 }
