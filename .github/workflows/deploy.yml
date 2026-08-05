@@ -23,20 +23,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
       - name: Setup Node
         uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: pnpm
+          cache: npm
 
+      # lockfile 在 Windows 本地生成，不含 Linux 专用原生二进制
+      # (npm bug #4828)，这里忽略它按 package.json 重新解析安装
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: npm install --no-package-lock
 
       - name: Build
-        run: pnpm run build
+        run: npm run build
         env:
           GITHUB_PAGES: 'true'
 
